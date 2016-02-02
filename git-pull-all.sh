@@ -2,8 +2,7 @@
 
 set -vx
 
-USER=$1
-GIT_REPOSITORIES=/home/${USER}/git-repositories
+GIT_REPOSITORIES=~/git-repositories
 DIRS=`ls $GIT_REPOSITORIES`
 
 # Check git command
@@ -21,10 +20,4 @@ function abort
 {
 	echo "ERROR: $@" 1>&2
 	exit 1
-}
-
-function usage
-{
-    echo "Usage: $0 USER"
-    exit 1
 }
