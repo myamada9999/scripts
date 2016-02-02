@@ -13,11 +13,13 @@ create-ltsi-kernel.sh
 
 This script is to create ltsi-kernel tree by TAG name.
 
-Run script with TAG name.
+Before you run this scirpt, you need to prepare ~/git-repositories directory.
 
- $ ./create-ltsi-kernel.sh ${TAG}
+Then, run script with TAG name.
 
-EX: ${TAG} is v4.1.17.
+ $ ./create-ltsi-kernel.sh ${TAG_NAME}
+
+EX: ${TAG_NAME} is v4.1.17.
 
 If you have a local git server for linux-stable.git and ltsi-kernel.git,
 

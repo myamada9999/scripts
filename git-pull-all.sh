@@ -1,9 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
-set -vx
+set -uevx
 
 GIT_REPOSITORIES=~/git-repositories
 DIRS=`ls $GIT_REPOSITORIES`
+
+function abort
+{
+	echo "ERROR: $@" 1>&2
+	exit 1
+}
 
 # Check git command
 [ ! `which git` ] && abort "git command not found."
@@ -15,9 +21,3 @@ do
 done
 
 exit 0
-
-function abort
-{
-	echo "ERROR: $@" 1>&2
-	exit 1
-}
