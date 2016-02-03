@@ -38,7 +38,7 @@ if [ ! -z $LOCAL_GIT_SERVER ]; then
 fi
 
 # Prepare linux-stable and ltsi-kernel in $GIT_REPOSITORY
-[ -d $GIT_REPOSITORY ] || abort "$GIT_REPOSITORY is not found."
+[ -d $GIT_REPOSITORY ] || mkdir -p $GIT_REPOSITORY || abort "mkdir $GIT_REPOSITORY failed."
 cd $GIT_REPOSITORY
 if [ -d "$GIT_REPOSITORY/linux-stable" ]; then
 	cd linux-stable; git pull; cd ../
