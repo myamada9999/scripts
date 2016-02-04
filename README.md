@@ -25,3 +25,22 @@ If you have a local git server for linux-stable.git and ltsi-kernel.git,
 
 please set $LOCAL_GIT_SERVER in create-ltsi-kernel.sh.
 
+send-done.sh
+------------
+
+Send done mail by this script.
+
+Please set NOPASSWD to /usr/sbin/sendmail in /etc/sudoers like below.
+
+ ${USER} ALL=(ALL;ALL) NOPASSWD: /usr/sbin/sendmail
+
+And please set MAIL_ADDRESS as destination address in send-done.sh.
+
+Then, run this script.
+
+ $ send-done.sh
+
+I use this script for notify when a commnad finished in nohup like following.
+
+ $ nohup sh -c 'A;send-done.sh'&
+
