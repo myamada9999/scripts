@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 MAIL_ADDRESS="masahiro9999@gmail.com"
 
