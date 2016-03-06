@@ -24,11 +24,22 @@ mkdir $WORK_DIR/boot
 mkdir $WORK_DIR/lib
 mkdir $WORK_DIR/lib/modules
 
-source $CROSS_COMPILE_ENVIRONMENT
-ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE make menuconfig || abort "Menuconfig failed"
-ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE make -j8 || abort "Compile failed"
-ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE sudo make install INSTALL_PATH=$WORK_DIR/boot || abort  "Install failed"
-ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE make modules_install INSTALL_MOD_PATH=$WORK_DIR || abort "Module install failed"
+if [ ! -z $CROSS_COMPILE_ENVIRONMENT ]; then
+    sudo bash -c " \
+                  source $CROSS_COMPILE_ENVIRONMENT; \
+                  ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE make menuconfig || abort 'Menuconfig failed'; \
+                  ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE make -j8 || abort 'Compile failed'; \
+                  ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE make install INSTALL_PATH=$WORK_DIR/boot || abort  'Install failed'; \
+                  ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE make modules_install INSTALL_MOD_PATH=$WORK_DIR || abort 'Module install failed'; \
+                 "
+else
+    sudo bash -c " \
+                  make menuconfig || abort 'Menuconfig failed'; \
+                  make -j8 || abort 'Compile failed'; \
+                  make install INSTALL_PATH=$WORK_DIR/boot || abort 'Install failed'; \
+                  make modules_install INSTALL_MOD_PATH=$WORK_DIR || abort 'Module install failed'; \
+                 "
+fi
 
 echo "Images was installed to $WORK_DIR"
 
