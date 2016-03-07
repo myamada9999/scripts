@@ -20,6 +20,20 @@ function warn
 [ -f ./Makefile ] || abort "Makefile is not found."
 [ -f ./.config ] || abort ".config is not found."
 [ -d $WORK_DIR ] || abort "$WORK_DIR is not found."
+
+VERSION=`cat Makefile | grep "^VERSION = " | cut -d "=" -f 2`
+PATCHLEVEL=`cat Makefile | grep "^PATCHLEVEL = " | cut -d "=" -f 2`
+SUBLEVEL=`cat Makefile | grep "^SUBLEVEL = " | cut -d "=" -f 2`
+EXTRAVERSION=`cat Makefile | grep "^EXTRAVERSION = " | cut -d "=" -f 2`
+
+# Remove extra spaces
+VERSION=`echo $VERSION`
+PATCHLEVEL=`echo $PATCHLEVEL`
+SUBLEVEL=`echo $SUBLEVEL`
+EXTRAVERSION=`echo $EXTRAVERSION`
+
+KERNEL_VERSION=$VERSION"."$PATCHLEVEL"."$SUBLEVEL$EXTRAVERSION
+
 mkdir $WORK_DIR/boot
 mkdir $WORK_DIR/lib
 mkdir $WORK_DIR/lib/modules
@@ -41,6 +55,8 @@ else
                  "
 fi
 
-echo "Images was installed to $WORK_DIR"
+[ -d "/tmp/"$KERNLE_VERSION".old" ] && sudo rm -rf "/tmp/"$KERNEL_VERSION".old"
+[ -d "/tmp/"$KERNLE_VERSION ] && sudo mv "/tmp/"$KERNEL_VERSION "/tmp/"$KERNEL_VERSION".old"
+sudo mv $WORK_DIR "/tmp/"$KERNEL_VERSION
 
 exit 0
