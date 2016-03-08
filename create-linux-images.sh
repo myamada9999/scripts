@@ -25,14 +25,24 @@ VERSION=`cat Makefile | grep "^VERSION = " | cut -d "=" -f 2`
 PATCHLEVEL=`cat Makefile | grep "^PATCHLEVEL = " | cut -d "=" -f 2`
 SUBLEVEL=`cat Makefile | grep "^SUBLEVEL = " | cut -d "=" -f 2`
 EXTRAVERSION=`cat Makefile | grep "^EXTRAVERSION = " | cut -d "=" -f 2`
+[ -f ./localversion-rt ] && LOCALVERSION=`cat ./localversion-rt`
 
 # Remove extra spaces
 VERSION=`echo $VERSION`
 PATCHLEVEL=`echo $PATCHLEVEL`
 SUBLEVEL=`echo $SUBLEVEL`
 EXTRAVERSION=`echo $EXTRAVERSION`
+if [ ! -z $LOCALVERSION ]; then
+    LOCALVERSION=`echo $LOCALVERSION`
+fi
 
 KERNEL_VERSION=$VERSION"."$PATCHLEVEL"."$SUBLEVEL$EXTRAVERSION
+if [ ! -z $LOCALVERSION ]; then
+    KERNEL_VERSION=$KERNEL_VERSION$LOCALVERSION
+fi
+
+echo $KERNEL_VERSION
+exit 0
 
 mkdir $WORK_DIR/boot
 mkdir $WORK_DIR/lib
