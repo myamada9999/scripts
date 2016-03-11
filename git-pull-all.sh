@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -uevx
-
 GIT_REPOSITORIES=~/git-repositories
 DIRS=`ls $GIT_REPOSITORIES`
 
