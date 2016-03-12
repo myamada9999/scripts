@@ -5,6 +5,25 @@ WORK_DIR=`mktemp -d`
 ARCH="x86"
 CROSS_COMPILE_ENVIRONMENT=""
 CROSS_COMPILE=""
+OUTPUT_DIR=""
+
+while getopts "d:" flag; do
+    case $flag in
+        \?) OPT_ERROR=1; break;;
+        d) OUTPUT_DIR="$OPTARG";;
+    esac
+done
+
+shift $(( $OPTIND - 1 ))
+
+if [ $OPT_ERROR ]; then
+    echo >&2 "usage: $0 [-d output_directory] "
+    exit 1
+fi
+
+echo AFTER: OUTPUT_DIR=$OUTPUT_DIR
+
+exit 0
 
 function abort
 {
@@ -65,8 +84,14 @@ else
                  "
 fi
 
-[ -d "/tmp/"$KERNLE_VERSION".old" ] && sudo rm -rf "/tmp/"$KERNEL_VERSION".old"
-[ -d "/tmp/"$KERNLE_VERSION ] && sudo mv "/tmp/"$KERNEL_VERSION "/tmp/"$KERNEL_VERSION".old"
-sudo mv $WORK_DIR "/tmp/"$KERNEL_VERSION
+if [ -z $OUTPUT_DIR ]; then
+    [ -d "/tmp/"$KERNLE_VERSION".old" ] && sudo rm -rf "/tmp/"$KERNEL_VERSION".old"
+    [ -d "/tmp/"$KERNLE_VERSION ] && sudo mv "/tmp/"$KERNEL_VERSION "/tmp/"$KERNEL_VERSION".old"
+    sudo mv $WORK_DIR "/tmp/"$KERNEL_VERSION
+else
+    [ -d $OUTPUT_DIR$KERNLE_VERSION".old" ] && sudo rm -rf $OUTPUT_DIR$KERNEL_VERSION".old"
+    [ -d $OUTPUT_DIR$KERNLE_VERSION ] && sudo mv $OUTPUT_DIR$KERNEL_VERSION $OUTPUT_DIR$KERNEL_VERSION".old"
+    sudo mv $WORK_DIR $OUTPUT_DIR$KERNEL_VERSION
+fi
 
 exit 0
