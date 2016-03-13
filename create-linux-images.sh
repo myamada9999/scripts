@@ -39,6 +39,9 @@ function warn
 [ -f ./Makefile ] || abort "Makefile is not found."
 [ -f ./.config ] || abort ".config is not found."
 [ -d $WORK_DIR ] || abort "$WORK_DIR is not found."
+if [ ! -z $OUTPUT_DIR ]; then
+ [ -d $OUTPUT_DIR ] || abort "i$OUTPUT_DIR is not found."
+fi
 
 VERSION=`cat Makefile | grep "^VERSION = " | cut -d "=" -f 2`
 PATCHLEVEL=`cat Makefile | grep "^PATCHLEVEL = " | cut -d "=" -f 2`
