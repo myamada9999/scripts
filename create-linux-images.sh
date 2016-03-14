@@ -21,10 +21,6 @@ if [ $OPT_ERROR ]; then
     exit 1
 fi
 
-echo AFTER: OUTPUT_DIR=$OUTPUT_DIR
-
-exit 0
-
 function abort
 {
 	echo "ERROR: $@" 1>&2
