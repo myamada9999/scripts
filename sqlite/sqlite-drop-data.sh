@@ -14,6 +14,31 @@ function abort
 	exit 1
 }
 
+while getopts "c:f:" flag; do
+    case $flag in
+        \?) OPT_ERROR=1; break;;
+        n) COUNT="$OPTARG";;
+        f) AGGREGATE_FUNCTION="$OPTARG";;
+    esac
+done
+
+shift $(( $OPTIND - 1 ))
+
+[ $OPT_ERROR ] && abort "usage: $0 [-c count] [-f function]"
+
+# Check whether $COUNT is numeric, or not.
+expr "$COUNT" + 1 >/dev/null 2>&1
+[ $? -lt 2 ] || abort "parameter of -c is not numeric."
+
+# Check whether $AGGREGATE_FUNCTION is valid, or not.
+case "$AGGREGATE_FUNCTION" in
+    "max") ;;
+    "min") ;;
+    "sim") ;;
+    "avg") ;;
+    *) abort "$AGGREGATE_FUNCTION of -f is invalid.";
+esac
+
 [ `which sqlite3` ] || abort "sqlite3 command is not found."
 [ -f $SQL_TEMPLATE ] || abort "$SQL_TEMPLATE is not found."
 [ -f $INPUT ] || abort "$INPUT file is not found."
