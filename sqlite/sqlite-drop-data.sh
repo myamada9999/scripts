@@ -14,11 +14,13 @@ function abort
 	exit 1
 }
 
-while getopts "c:f:" flag; do
+while getopts "c:f:i:o:" flag; do
     case $flag in
         \?) OPT_ERROR=1; break;;
         n) COUNT="$OPTARG";;
         f) AGGREGATE_FUNCTION="$OPTARG";;
+        i) INPUT="$OPTARG";;
+        o) OUTPUT="$OPTARG";;
     esac
 done
 
@@ -43,7 +45,7 @@ esac
 [ -f $SQL_TEMPLATE ] || abort "$SQL_TEMPLATE is not found."
 [ -f $INPUT ] || abort "$INPUT file is not found."
 
-# create sql script from template
+# Create sql script from template
 [ -f $SQL ] && rm $SQL
 cp $SQL_TEMPLATE $SQL
 sed -i -e "s/INPUT/${INPUT}/g" $SQL
@@ -51,7 +53,10 @@ sed -i -e "s/OUTPUT/${OUTPUT}/g" $SQL
 sed -i -e "s/COUNT/${COUNT}/g" $SQL
 sed -i -e "s/AGGREGATE_FUNCTION/${AGGREGATE_FUNCTION}/g" $SQL
 
+# Run sqlite
 sqlite3 $DB < $SQL
+
+# Remove db and sql.
 rm $DB $SQL
 
 exit 0
