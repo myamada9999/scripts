@@ -19,8 +19,10 @@ function usage
 [ $# != 1 ] && usage
 GIT_DIRECTORY=$1
 
+# check git directory
 [ -d $GIT_DIRECTORY ] || abort "$GIT_DIRECTORY not found."
 
+# Get git address
 URL=`cat $GIT_DIRECTORY/.git/config | grep url | cut -d"=" -f2`
 
 mv $GIT_DIRECTORY $WORK_DIR/ || abort "cannot move $GIT_DIRECTORY"
