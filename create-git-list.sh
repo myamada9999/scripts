@@ -27,6 +27,8 @@ do
         warn "$dir is not git directory"
         continue
     fi
+
+    # Get git address
     URL=`cat $dir/.git/config | grep url | cut -d"=" -f2`
     echo $URL >> $CURRENT_DIR/$GIT_LIST
 done
