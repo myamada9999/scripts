@@ -16,5 +16,14 @@ git config --global push.default matching
 git config --global user.name 'Masahiro Yamada'
 git config --global user.email $MAIL_ADDRESS
 git config --global core.editor 'vim'
+git config --global alias.ad 'add .'
+git config --global alias.cm 'commit -s'
+git config --global alias.in 'commit -s --interactive'
+git config --global alias.tm 'commit -s -m"temp"'
+git config --global alias.br 'branch -a'
+git config --global alias.ch 'checkout'
+git config --global alias.lo 'log'
+git config --global alias.hr 'reset --hard'
+git config --global alias.hr 'reset --soft'
 
 exit 0
