@@ -27,5 +27,6 @@ git config --global alias.ps 'push origin'
 git config --global alias.pl 'pull'
 git config --global alias.hd 'reset --hard'
 git config --global alias.sf 'reset --soft'
+git config --global alias.fp 'format-patch'
 
 exit 0
