@@ -27,5 +27,6 @@ git config --global alias.pl 'pull'
 git config --global alias.ha 'reset --hard'
 git config --global alias.so 'reset --soft'
 git config --global alias.fo 'format-patch'
+git config --global alias.ab 'am --abort'
 
 exit 0
