@@ -9,6 +9,6 @@ function abort
 
 [ `which send-mail.sh` ] || abort "send-mail.sh is not found."
 nohup bash -c "bitbake core-image-base; bitbake meta-toolchain"
-send-mail.sh "bitbake finished." "`tail -n 50 nohup.out`"
+send-mail.sh "myamada9999@gmail.com" "bitbake finished." "`tail -n 50 nohup.out`"
 
 exit 0

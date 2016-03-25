@@ -2,23 +2,24 @@
 
 WORK_DIR=`mktemp -d`
 FILE_NAME="done.txt"
-MAIL_ADDRESS="@adderss"
+ADDRESS="@adderss"
 SUBJECT="@subject"
 BODY="@body"
 
 function usage
 {
-    echo "Usage: $0 SUBJECT BODY"
+    echo "Usage: $0 ADDRESS SUBJECT BODY"
 	rm -rf $WORK_DIR
     exit 1
 }
 
-[ $# != 2 ] && usage
-SUBJECT=$1
-BODY=$2
+[ $# != 3 ] && usage
+ADDRESS=$1
+SUBJECT=$2
+BODY=$3
 
-echo "From: $MAIL_ADDRESS" >> $WORK_DIR/$FILE_NAME
-echo "To: $MAIL_ADDRESS"   >> $WORK_DIR/$FILE_NAME
+echo "From: $ADDRESS" >> $WORK_DIR/$FILE_NAME
+echo "To: $ADDRESS"   >> $WORK_DIR/$FILE_NAME
 echo "Subject: $SUBJECT"   >> $WORK_DIR/$FILE_NAME
 echo "$BODY"               >> $WORK_DIR/$FILE_NAME
 
