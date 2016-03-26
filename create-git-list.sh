@@ -2,7 +2,7 @@
 
 GIT_DIR=~/git-repositories
 DIRS=`ls $GIT_DIR`
-GIT_LIST="git-list.txt"
+OUTPUT_FILE="git-list.txt"
 CURRENT_DIR=`pwd`
 
 function abort
@@ -15,6 +15,15 @@ function warn
 {
 	echo "ERROR: $@" 1>&2
 }
+
+while getopts "o:" flag; do
+    case $flag in
+        \?) OPT_ERROR=1; break;;
+        o) OUTPUT_FILE="$OPTARG";;
+    esac
+done
+shift $(( $OPTIND - 1 ))
+[ $OPT_ERROR ] && abort "usage: $0 [-o output_file]"
 
 cd $GIT_DIR
 for dir in `echo $DIRS`
@@ -30,7 +39,7 @@ do
 
     # Get git address
     URL=`cat $dir/.git/config | grep url | cut -d"=" -f2`
-    echo $URL >> $CURRENT_DIR/$GIT_LIST
+    echo $URL >> $CURRENT_DIR/$OUTPUT_FILE
 done
 cd $CURRENT_DIR
 
