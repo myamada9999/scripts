@@ -10,13 +10,13 @@ function abort
 CORE_IMAGE="core-image-base"
 SEND_MAIL=0
 
-while getopts "bmtn" flag; do
+while getopts "bmts" flag; do
     case $flag in
         \?) OPT_ERROR=1; break;;
         b) CORE_IMAGE="core-image-base";;
         m) CORE_IMAGE="core-image-minimal";;
         t) TOOLCHAIN="meta-toolchain";;
-        n) SEND_MAIL=1;;
+        s) SEND_MAIL=1;;
     esac
 done
 shift $(( $OPTIND - 1 ))
@@ -30,7 +30,7 @@ if [ ! -z $TOOLCHAIN ]; then
     mv nohup.out $TOOLCHAIN.log
 fi
 if [ $SEND_MAIL == 1 ]; then
-    send-mail.sh "@mail address" "bitbake finished." "`tail -n 50 $CORE_IMAGE.log`"
+    send-mail.sh "@mail address" "bitbake finished." "`tail -n 10 $CORE_IMAGE.log`"
 fi
 
 exit 0
