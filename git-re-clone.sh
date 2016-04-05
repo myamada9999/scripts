@@ -11,22 +11,28 @@ function abort
 
 function usage
 {
-    echo "Usage: $0 GIT_DIRECTORY"
+    echo "Usage: $0 GIT_DIR"
 	rm -rf $WORK_DIR
     exit 1
 }
 
 [ $# != 1 ] && usage
-GIT_DIRECTORY=$1
+GIT_DIR=$1
 
 # check git directory
-[ -d $GIT_DIRECTORY ] || abort "$GIT_DIRECTORY not found."
+[ -d $GIT_DIR ] || abort "$GIT_DIR not found."
 
 # Get git address
-URL=`cat $GIT_DIRECTORY/.git/config | grep url | cut -d"=" -f2`
+URL=`cat $GIT_DIR/.git/config | grep url | cut -d"=" -f2`
 
-mv $GIT_DIRECTORY $WORK_DIR/ || abort "cannot move $GIT_DIRECTORY"
+mv $GIT_DIR $WORK_DIR/ || abort "cannot move $GIT_DIR"
+CURRENT_DIR=`pwd`
+cd $WORK_DIR
+rm -rf $GIT_DIR
 git clone $URL || abort "To git clone $URL failed"
+GIT_DIR_ORIG=`ls`
+mv $GIT_DIR_ORIG $CURRENT_DIR/$GIT_DIR
+cd $CURRENT_DIR
 rm -rf $WORK_DIR || abort "To remove $WORK_DIR failed"
 
 exit 0
