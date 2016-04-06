@@ -2,7 +2,7 @@
 
 function usage
 {
-    echo "Usage: $0 USER REPOSITORYY"
+    echo "Usage: $0 USER REPOSITORY"
 	rm -rf $WORK_DIR
     exit 1
 }
