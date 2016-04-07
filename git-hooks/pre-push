@@ -1,0 +1,38 @@
+#!/bin/sh
+
+PROTECTED_BRANCHES=( trunk master )
+
+CURRENT_BRANCH=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
+
+PUSH_COMMAND=$(ps -ocommand= -p $PPID)
+
+IS_DESTRUCTIVE='force|delete|\-f'
+
+WILL_REMOVE_PROTECTED_BRANCH=':'$PROTECTED_BRANCH
+
+for i in "${PROTECTED_BRANCHES[@]}"
+do
+
+    PROTECTED_BRANCH=$i
+
+    # define error message
+    MESSAGE="pre-push hook: Do not $PUSH_COMMAND to $PROTECTED_BRANCH. DO git fetch && git merge origin $PROTECTED_BRANCH."
+
+    if [[ $PUSH_COMMAND =~ $IS_DESTRUCTIVE ]] && [ $CURRENT_BRANCH = $PROTECTED_BRANCH ]; then
+      echo $MESSAGE
+      exit 1
+    fi
+
+    if [[ $PUSH_COMMAND =~ $IS_DESTRUCTIVE ]] && [[ $PUSH_COMMAND =~ $PROTECTED_BRANCH ]]; then
+      echo $MESSAGE
+      exit 1
+    fi
+
+    if [[ $PUSH_COMMAND =~ $WILL_REMOVE_PROTECTED_BRANCH ]]; then
+      echo $MESSAGE
+      exit 1
+    fi
+
+done
+
+exit 0
